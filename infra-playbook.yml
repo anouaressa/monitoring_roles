@@ -1,0 +1,4 @@
+- hosts: vms
+  become: true
+  roles:
+  - node_exporter

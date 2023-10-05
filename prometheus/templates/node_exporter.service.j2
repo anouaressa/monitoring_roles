@@ -1,0 +1,10 @@
+[Unit]
+Description=Prometheus
+
+[Service]
+TimeoutStartSec=0
+User=prometheus
+ExecStart={{ prometheus_bin_path }} --web.listen-address={{ prometheus_host }}:{{ prometheus_port }} {{ prometheus_options }}
+
+[Install]
+WantedBy=multi-user.target

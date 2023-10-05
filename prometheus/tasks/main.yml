@@ -1,0 +1,50 @@
+---
+# tasks file for prometheus
+
+
+- name: Download and unarchive prometheus into temporary location.
+  unarchive:
+    src: "{{ prometheus_download_url }}"
+    dest: /tmp
+    remote_src: true
+    mode: 0755
+
+- name: Move prometheus binary into place.
+  copy:
+    src: "/tmp/prometheus-{{ prometheus_version }}.linux-{{ node_exporter_arch }}/prometheus"
+    dest: "{{ prometheus_bin_path }}"
+    mode: 0755
+    remote_src: true
+
+- name: Create prometheus user.
+  user:
+    name: prometheus
+    shell: /sbin/nologin
+    state: present
+  
+- name: Copy the prometheus systemd unit file.
+  template:
+    src: prometheus.service.j2
+    dest: /etc/systemd/system/prometheus.service
+    mode: 0644
+  register: prometheus_service
+
+
+- name: Reload systemd daemon if unit file is changed.
+  systemd:
+    daemon_reload: true
+  notify: restart prometheus
+  when: prometheus_service is changed
+
+- name: Ensure prometheus is running and enabled at boot.
+  service:
+    name: prometheus
+    state: "{{ prometheus_state }}"
+    enabled: "{{ prometheus_enabled }}"
+
+- name: Verify prometheus is responding to requests.
+  uri:
+    url: "http://{% if prometheus_host !='' %}{{ prometheus_host }}{% else %}localhost{% endif %}:{{ prometheus_port }}/"
+    return_content: true
+  register: metrics_output
+  failed_when: "'Metrics' not in metrics_output.content"
