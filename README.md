@@ -1,6 +1,6 @@
 # custom_ansible_roles
 
-## For installing Prometheus Node Exporter on a Linux system.
+## For installing Prometheus & Node Exporter on a Linux system (this is the manual steps taht u need to do but we automate this usin ansible by creating 2 roles the first for setup node exporte and the second for setup promtheus ).
  The provided steps are:
 
 ## Download Node Exporter:
