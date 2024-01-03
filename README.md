@@ -1,12 +1,12 @@
 # custom_ansible_roles
 
 ## For installing Prometheus Node Exporter on a Linux system.
-## The provided steps are:
+ The provided steps are:
 
 ## Download Node Exporter:
 
-``` wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
-```
+```wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz```
+
 This command uses wget to download the Node Exporter version 1.3.1 for Linux on AMD64 architecture from the specified URL.
 
 ## Extract the Tarball:
